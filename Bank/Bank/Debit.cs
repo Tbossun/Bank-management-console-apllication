@@ -34,7 +34,7 @@ namespace Bank
             this.amount = amount;
            if (amount > maxBalance)
             {
-                Console.WriteLine("You can not deposit more than 100000!");
+                Console.WriteLine("You can not deposit more than 1000000!");
                 return false;
             }
             else
@@ -57,15 +57,19 @@ namespace Bank
                 return false;
 
             }
-            else if(amount>maxBalance)
+            else if(amount > maxBalance)
             {
-                Console.WriteLine("You can not withdraw that ammount of money!");
+                Console.WriteLine("You can not withdraw that amount of money!");
+                return false;
+            }else if(balance - amount < 0)
+            {
+                Console.WriteLine("You don't have sufficient amount of money in your account");
                 return false;
             }
             else
             {
                 this.balance = balance - amount;
-                Console.WriteLine("You account balance has been withdrawed.Balance is: " + balance);
+                Console.WriteLine("You withdrawal was successful. New Account Balance is: " + balance);
                 return true;
             }
         }

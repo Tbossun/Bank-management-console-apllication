@@ -31,12 +31,27 @@ namespace Bank
         }
         public void printAccount()
         {
-           /* Console.WriteLine("---------------------||------------------||---------------------||--------------------------"); 
-            Console.WriteLine("        Name                DoB                Referee                    balance");*/
-            Console.WriteLine("Name : " + name + "\t");
+            Console.WriteLine("|------------------|------------------|--------------------|--------------------|----------------|");
+            Console.WriteLine("|   Acct Name      |    Acct No       |     Acct id        |     Acct type      |  acct balance  |");
+            Console.WriteLine("|------------------|------------------|--------------------|--------------------|----------------|");                     
+            Console.Write("   " + name + "\t");
+            Console.Write(" \t" + ID + "\t");
+            Console.Write("  " + DOB + "\t");
+            Console.Write( type + "\t");
+            Console.Write("  " + balance + "\t");
+            Console.Write(" \t\t" + balance + "\t");
+
+            /*Console.Write("  " + myName[indexNum] + "\t");
+            Console.Write("\t" + acctNumber + "\t");
+            Console.Write("  " + myId[indexNum] + "\t");
+            Console.Write(myAccType[indexNum]);
+            Console.Write("  \t\t" + myBalance[indexNum]);*/
+
+            /*Console.WriteLine("Name : " + name + "\t");
             Console.Write("Date of Birth :" + DOB + "\t");
             Console.WriteLine("Referee : " + referee + "\t");
-            Console.WriteLine("Balance :" + balance + "\t");
+            Console.WriteLine("Balance :" + balance + "\t");*/
+
         }
         public Account()
         {

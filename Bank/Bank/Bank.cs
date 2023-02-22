@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Bank 
@@ -29,6 +31,7 @@ namespace Bank
         Savings sv = new Savings();
         Debit db = new Debit();
         Current cr = new Current();
+        //AcctName actN = new AcctName(); 
        
         
         //see in create account
@@ -43,35 +46,42 @@ namespace Bank
             idnum++;
            
         }
+
+        //THIS METHOD PRINTS OUT TO THE CONSOLE THE DETAILS OF ALL CREATED ACCOUNTS
         public void showAll()
         {
-            Console.WriteLine("All registerd accounts are:\n");
-            for (int i=0;i<idnum;i++)
+            Console.WriteLine("All registerd accounts are:\n\n");
+            Console.WriteLine("|------------------|------------------|--------------------|--------------------|----------------|");
+            Console.WriteLine("|   Acct Name      |    Acct No       |     Acct id        |     Acct type      |  acct balance  |");
+            Console.WriteLine("|------------------|------------------|--------------------|--------------------|----------------|");
+            for (int i = 0;i < idnum; i++)
             {
-                Console.WriteLine(myId[i]);
-                
+                Console.WriteLine(" " + myName[i] + "\t\t" + acctNumber + " \t" + myId[i] + "  \t\t" + myAccType[i] +"  \t\t" + myBalance[i]);
+                Console.WriteLine("|------------------------------------------------------------------------------------------------|");
             }
         }
+
         
+        //THIS METHOD PRINTS TO THE CONSOLE INFORMATION ABOUT A SPECIFIC ACOUNT ID
         public void showInfo()
         {
-            int indexNum;//specific index for showing information
+            int indexNum;  //specific index for showing information
             string inId = Convert.ToString(Console.ReadLine());
           
             
             if (myId.Contains(inId))
             {
-                indexNum = Array.IndexOf(myId,inId);//find out array number
+                indexNum = Array.IndexOf(myId,inId);
+                //find out array number
                 Console.WriteLine("Your Account details are: ");
                 Console.WriteLine("|------------------|------------------|--------------------|--------------------|----------------|");
-                Console.WriteLine("       Name        |    Acct No       |     Acct id        |     Acct type      |  acct balance  |");
+                Console.WriteLine("|   Acct Name      |    Acct No       |     Acct id        |     Acct type      |  acct balance  |");
                 Console.WriteLine("|------------------|------------------|--------------------|--------------------|----------------|");
-                Console.WriteLine("|        {}        |");
                 Console.Write("  " + myName[indexNum] + "\t");
-                Console.Write("\t" +acctNumber + "\t");
-                Console.Write(" \t" +myId[indexNum] + "\t");
-                Console.Write("\t" +myAccType[indexNum]);
-                Console.Write("\t\t" + myBalance[indexNum]);
+                Console.Write("\t" +acctNumber + "  ");
+                Console.Write("\t " +myId[indexNum] + "\t");
+                Console.Write("  " + myAccType[indexNum]);
+                Console.Write("  \t\t" + myBalance[indexNum]);
                
                 /* Console.Write("Name: "+myName[indexNum]+ "");
                  Console.WriteLine("Your acount number :" + acctNumber);
@@ -88,17 +98,22 @@ namespace Bank
            
 
         }
-     
+        string FirstName;
+        string LastName;
 
         public void create_account()
         {
             
             string accType;
             string name;
+            bool validName = false;
             int dd, mm, yr;
             string nominee;
             double balance;
             string input;
+            //string FirstName;
+            //string LastName;
+            Console.WriteLine("\n");
             Console.WriteLine("0 => Debit Account");
             Console.WriteLine("1 => Savings Account");
             Console.WriteLine("2 => Current Account");
@@ -106,35 +121,50 @@ namespace Bank
             input = Convert.ToString(ob1);
 
             if (input == "0")
-            {
+            {   
+                    accType = "Debit";
+                    myAccType[idnum] = accType;
 
-                accType = "Debit";
-                myAccType[idnum] = accType;
-                Console.Write("Enter First name: ");
-                string firstName = Console.ReadLine();
-                Console.Write("Enter Last name: ");
-                string lastName = Console.ReadLine();
-                if (char.IsDigit(firstName[0]) || char.IsDigit(lastName[0]))
+                while (!validName)
                 {
-                    Console.WriteLine("Name cannot begin with a number");
+                    Console.Write("Enter First name: ");
+                    string firstName = Console.ReadLine();
+                    //string Fn = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+
+                    Console.Write("Enter Last name: ");
+                    string lastName = Console.ReadLine();
+                    // string Ln = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+
+                    if (char.IsDigit(firstName[0]) || char.IsDigit(lastName[0]))
+                    {
+                        Console.WriteLine("Name cannot begin with a number");
+
+                    }else if(string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName)) 
+                    {
+                        Console.WriteLine("Name cannot be empty. Please enter a valid name.");
+                         
+                    }
+                   /* else if (char.IsLower(firstName[0]) || char.IsLower(lastName[0]))
+                    {
+                        Console.WriteLine("Name cannot begin with small letter");
+                        
+                    }*/
+                    else
+                    {
+                        validName = true;
+                        LastName = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+                        FirstName = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+                        Console.WriteLine("Hello, " + FirstName + " " + LastName);
+                        name = FirstName + " " + LastName;
+                    }  
+                    
                 }
-                else if (char.IsLetter(firstName[0]) || char.IsLetter(lastName[0]))
-                {
-                     char.ToUpper(firstName[0]);
-                     char.ToUpper(lastName[0]);
-                }
-                else
-                {
-                    Console.WriteLine("Enter a valid name!");
-                }
-               
-                name = Convert.ToString(firstName) + " " + Convert.ToString(lastName);
+                name = FirstName + " " + LastName;
                 myName[idnum] = name;
+                // LastName = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
 
-
-                //The while loop checks to make sure that the dates are entered correctly and in the right format
-                while (val==true)
-                {
+                while (val == true)
+                    {
                     //Take date of birth
                     Console.WriteLine("Enter day of birth: ");
                     dd = Convert.ToInt32(Console.ReadLine());
@@ -162,14 +192,16 @@ namespace Bank
                 val = true;
                 //debit,savings,current all used the same val 
 
-
+                //SAVINGS ACCOUNT DOESN'T NEED A REFEREE
+                /*
                 Console.WriteLine("Enter Referee's name: ");
                 nominee = Convert.ToString(Console.ReadLine());
                 myNominee[idnum] = nominee;
+                */
 
                 
                 
-                //takes input untill balance is correct
+                //CHECKS TO MAKE SURE DEPOSIT AMOUNT MEETS THE REQUIREMENT
                 while (debval == true)
                 {
                     Console.WriteLine("Enter deposit amount: ");
@@ -201,10 +233,50 @@ namespace Bank
             {
                 accType = "Savings";
                 myAccType[idnum] = accType;
-                Console.Write("Enter FullName:");
-                // object ob2 = Console.ReadLine();
-                name = Convert.ToString(Console.ReadLine());
+
+                while (!validName)
+                {
+                    Console.Write("Enter First name: ");
+                    string firstName = Console.ReadLine();
+                    //string Fn = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+
+                    Console.Write("Enter Last name: ");
+                    string lastName = Console.ReadLine();
+                    // string Ln = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+
+                    if (char.IsDigit(firstName[0]) || char.IsDigit(lastName[0]))
+                    {
+                        Console.WriteLine("Name cannot begin with a number");
+
+                    }
+                    else if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+                    {
+                        Console.WriteLine("Name cannot be empty. Please enter valid name.");
+
+                    }
+                   /* else if (char.IsLower(firstName[0]) || char.IsLower(lastName[0]))
+                    {
+                        Console.WriteLine("Name cannot begin with small letter");
+
+                    }*/
+                    else
+                    {
+                        validName = true;
+                        //THIS 
+                        LastName = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+                        FirstName = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+                        Console.WriteLine("Hello, " + FirstName + " " + LastName);
+                        name = FirstName + " " + LastName;
+                    }
+
+                }
+                name = FirstName + " " + LastName;
                 myName[idnum] = name;
+
+                /* Console.Write("Enter FullName:");
+                 // object ob2 = Console.ReadLine();
+                 name = Convert.ToString(Console.ReadLine());
+                 myName[idnum] = name;*/
                 //if user input for date is wrong then it will take untill the input is correct
                 while (val == true)
                 {
@@ -225,10 +297,18 @@ namespace Bank
                     }
                     else val = true;
                 }
-                val = true;//debit,credit,savings all used the same val 
-                Console.WriteLine("Enter Referee's name: ");
+
+                //debit,credit,savings all used the same val
+                val = true;
+                 
+
+
+
+               /* Console.WriteLine("Enter Referee's name: ");
                 nominee = Convert.ToString(Console.ReadLine());
-                myNominee[idnum] = nominee;
+                myNominee[idnum] = nominee;*/
+
+
                 //takes input untill balance is correct
                 while (debval == true)
                 {
@@ -261,11 +341,48 @@ namespace Bank
             {
                 accType = "Current";
                 myAccType[idnum] = accType;
-                Console.Write("Enter Fullname:");
-          
-                name = Convert.ToString(Console.ReadLine());
+
+                while (!validName)
+                {
+                    Console.Write("Enter First name: ");
+                    string firstName = Console.ReadLine();
+                    //string Fn = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+
+                    Console.Write("Enter Last name: ");
+                    string lastName = Console.ReadLine();
+                    // string Ln = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+
+                    if (char.IsDigit(firstName[0]) || char.IsDigit(lastName[0]))
+                    {
+                        Console.WriteLine("Name cannot begin with a number");
+
+                    }
+                    else if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+                    {
+                        Console.WriteLine("Name cannot be empty. Please enter valid name.");
+
+                    }
+                    /*
+                     else if (char.IsLower(firstName[0]) || char.IsLower(lastName[0]))
+                    {
+                        Console.WriteLine("Name cannot begin with small letter");
+
+                    }
+                    */
+                    else
+                    {
+                        validName = true;
+                        LastName = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+                        FirstName = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+                        Console.WriteLine("Hello, " + FirstName + " " + LastName);
+                        name = FirstName + " " + LastName;
+                    }
+
+                }
+                name = FirstName + " " + LastName;
                 myName[idnum] = name;
-                //if user input for date is wrong then it will take untill the input is correct
+
+                //if user input for date is wrong then it will take until the input is correct
                 while (val == true)
                 {
                     Console.WriteLine("Enter day of birth: ");
@@ -318,7 +435,7 @@ namespace Bank
                 indexNum = Array.IndexOf(myId, inId);
                 //passArrNum = indexNum;
                 Console.WriteLine("Your Balance is: " + myBalance[indexNum]);
-                Console.WriteLine("How much you want to deposit: ");
+                Console.WriteLine("How much do you want to deposit: ");
                 double depval = Convert.ToDouble(Console.ReadLine());
                 if (myAccType[indexNum] == "Debit")
                 {
@@ -355,7 +472,7 @@ namespace Bank
             {
                 indexNum = Array.IndexOf(myId, inId);
                 Console.WriteLine("Your Balance is: " + myBalance[indexNum]);
-                Console.WriteLine("How much you want to withdraw: ");
+                Console.WriteLine("How much do you want to withdraw: ");
                 double depval = Convert.ToDouble(Console.ReadLine());
                 if (myAccType[indexNum] == "Debit")
                 {
@@ -384,6 +501,44 @@ namespace Bank
             }
 
 
+
+
         }
     }
 }
+
+
+
+
+/*else if (char.IsLetter(firstName[0]) || char.IsLetter(lastName[0]))
+                   {
+                       FirstName = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+                       LastName = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+
+                       name = FirstName + LastName;
+                       //char.ToUpper(firstName[0]);
+                       // char.ToUpper(lastName[0]);
+                       // string sName = Regex.Replace(firstName, "^[a-z]", char.ToUpper(firstName[0]));
+                       //Console.WriteLine(FirstName + " " + LastName);
+                       // name = FirstName + " " + LastName;
+
+                   }
+                   else
+                   {
+                       Console.WriteLine("Enter a valid name!");
+                   }
+                   // name = FirstName;
+                   FirstName = firstName.Substring(0, 1).Replace(firstName[0], char.ToUpper(firstName[0])) + firstName.Substring(1);
+                   LastName = lastName.Substring(0, 1).Replace(lastName[0], char.ToUpper(lastName[0])) + lastName.Substring(1);
+                   name = LastName + FirstName;
+                   actN.setName(firstName, lastName);
+                   if (actN.checkName() == false)
+                   {
+                       myName[idnum] = name;
+                       val = false;
+                   }
+
+                   else val = true;*/
+/* name = Convert.ToString(firstName.ToUpper() + " " + Convert.ToString(lastName.ToUpper()));
+ myName[idnum] = name;
+ // Console.WriteLine(name);*/

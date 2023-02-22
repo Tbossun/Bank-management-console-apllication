@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace Bank
 {
+
+    //This class handles the current account withdrawals and deposits
+    //This is a child of the Account class and inherits some of the properties of the parent class 
     class Current : Account
     {
         public Current() : base()
         {
         }
 
+
+        //Deposit to current account method
         public override bool deposit(double amount)
         {
             this.amount = amount;
@@ -20,60 +25,29 @@ namespace Bank
             return true;
         }
 
+
+        ////Withdraw from current account method
         public override bool withdraw(double amount)
         {
-            this.amount = amount;
-            this.balance = balance - amount;
-            Console.WriteLine("Your withdrawal was successful, New balance is: " + balance);
-            return true;
-        }
-
-
-
-       /* public double minBalance = 1000;
-        private double dailyWithdrawLimit = 20000;
-
-
-        public credit() : base()
-        {
-        }
-        public credit(string name, DateOfBirth DOB, string nominee, double balance) : base(name, DOB, nominee, balance)
-        {
-
-        }
-        *//*private bool isDailyWithdrawLimitOver(double amount)
-        {
-        }*//*
-        public override bool deposit(double amount)
-        {
-            this.amount = amount;
-            this.balance = balance + amount;
-            Console.WriteLine("Your funds was deposited successfully. New account Balance is: " + balance);
-            return true;
-        }
-        public override bool withdraw(double amount)
-        {
-            this.amount = amount;
-            if (amount < this.minBalance)
+            this.amount = amount;     //set amount to withdraw equals to amount variable
+            
+            if (amount > balance)   //if set amount(amount to withdraw is greater than account balance)
             {
                 Console.WriteLine("You don't have sufficient amount of money in your account!");
                 return false;
             }
-            else if (amount > dailyWithdrawLimit)
+            else if (balance - amount < 0)   //if the available balance minus the amount will equate to a negative value
             {
-                Console.WriteLine("You cannot withdraw more than a daily amount of 20000.");
+                Console.WriteLine("You don't have sufficient amount of money in your account");
                 return false;
             }
             else
             {
-
+                //if available balance is more than the amount to withdraw
                 this.balance = balance - amount;
                 Console.WriteLine("Your withdrawal was successful. New account Balance is: " + balance);
                 return true;
             }
         }
-*/
-
-
     }
 }

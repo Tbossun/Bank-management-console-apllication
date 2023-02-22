@@ -19,13 +19,11 @@ namespace Bank
             
                 this.day = d;
                 this.month = m;
-                this.year = y;
-            
-
+                this.year = y;           
         }
         public bool checkDate()
         {
-            if (day > 31 || month > 12 || year > 2016)
+            if (day > 31 || month > 12 || year > 2023)
             {
                 Console.WriteLine("Invalid date ");
                 return false;
@@ -37,8 +35,6 @@ namespace Bank
         }
         public bool printDate()
         {
-         
-
                 if (checkDate() == true)
                 {
                     Console.WriteLine("Date is : " + day + "-" + month + "-" + year);
@@ -46,9 +42,7 @@ namespace Bank
                 }
                 else
                     Console.WriteLine("please enter date again in the order => day, month, year");
-            return true;
-              
-              
+            return true;                            
         }
     }
 }

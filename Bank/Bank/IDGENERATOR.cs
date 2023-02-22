@@ -8,11 +8,13 @@ namespace Bank
 {
     class IDGENERATOR
     {
-        //taking system date to create an id for an account holder
+        //acct id generator variables
         static int id = 01;
         string storeId;
         DateTime date = DateTime.Now;
        
+
+        //This method uses the inputed date of birth to generate an account id
         public string generate()
         {
             string gid = DateTime.Now.ToString("yyyyMM");
